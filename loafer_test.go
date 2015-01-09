@@ -11,11 +11,7 @@ type testAdaptor struct{}
 func (t *testAdaptor) Write(p []byte) (n int, err error) {
 	num := bytes.NewReader(p).Len()
 	s := string(p[:num])
-	fmt.Println(s)
-	// Output:
-	// key:error
-
-	return num, nil
+	return fmt.Println(s)
 }
 
 type testFomatter struct{}
@@ -28,8 +24,11 @@ func (t *testFomatter) Format(data Fields) ([]byte, error) {
 }
 
 func TestLoafer(t *testing.T) {
-	log := NewLoafer(Loafer{"1", &testAdaptor{}, &testFomatter{}})
-	log.Log(Info, Fields{
+	log := NewLoafer(Loafer{"1", &testAdaptor{}, &defaultFormatter{}})
+	lErr := log.Log(Info, Fields{
 		"key": "error",
 	})
+	if lErr != nil {
+		t.Error(lErr)
+	}
 }

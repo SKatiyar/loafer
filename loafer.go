@@ -27,7 +27,7 @@ type Logger struct {
 	df Formatter
 }
 
-func (l *Logger) Log(e level, data Fields) {
+func (l *Logger) Log(e level, data Fields) error {
 	// get time at which log was generated
 	ct := time.Now().UTC()
 
@@ -58,7 +58,8 @@ func (l *Logger) Log(e level, data Fields) {
 		formatedData, _ = l.df.Format(data)
 	}
 
-	_, _ = l.a.Write(formatedData)
+	_, wErr := l.a.Write(formatedData)
+	return wErr
 }
 
 func NewLoafer(l Loafer) *Logger {
