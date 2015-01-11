@@ -23,6 +23,7 @@ type Loafer struct {
 type Logger struct {
 	id string
 	a  Adaptor
+	da Adaptor
 	f  Formatter
 	df Formatter
 }
@@ -59,9 +60,13 @@ func (l *Logger) Log(e level, data Fields) error {
 	}
 
 	_, wErr := l.a.Write(formatedData)
-	return wErr
+	if wErr != nil {
+		l.da.Write(formatedData)
+		return wErr
+	}
+	return nil
 }
 
 func NewLoafer(l Loafer) *Logger {
-	return &Logger{l.UniqueId, l.Adaptor, l.Formatter, &defaultFormatter{}}
+	return &Logger{l.UniqueId, l.Adaptor, &FmtAdaptor{}, l.Formatter, &TextFormatter{}}
 }

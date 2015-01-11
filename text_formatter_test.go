@@ -11,7 +11,7 @@ type temp struct {
 }
 
 func TestDefaultFormatter(t *testing.T) {
-	f := &defaultFormatter{}
+	f := &TextFormatter{}
 	data := Fields{
 		"level":  level(3),
 		"key":    "error",

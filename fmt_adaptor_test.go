@@ -4,10 +4,10 @@ import (
 	"testing"
 )
 
-func TestDefaultAdaptor(t *testing.T) {
+func TestFmtAdaptor(t *testing.T) {
 	var data = []byte(`key:error`)
 
-	a := &defaultAdaptor{}
+	a := &FmtAdaptor{}
 	_, err := a.Write(data)
 	if err != nil {
 		t.Error(err)
